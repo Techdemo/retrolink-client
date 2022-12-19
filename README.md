@@ -38,3 +38,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - import the correct fonts
 - vul deze codebase in, in je repository en push het.
 - klap de story van het ingelogged blijven
+- move the heading container to the register and login form components
