@@ -13,7 +13,10 @@ import {
 } from './styled';
 
 export const Navigation = () => {
-  const { authUser, signOut } = useFirebaseAuth();
+  const { authUser, signOut, loading } = useFirebaseAuth();
+  const determined = Boolean(authUser && authUser.uid && !loading);
+
+  if (loading) return null;
 
   return (
     <NavigationContainer>
@@ -28,15 +31,17 @@ export const Navigation = () => {
       </MenuContainer>
 
       <ButtonContainer>
-        {authUser && authUser.uid ? (
+        {determined && (
           <>
             <NameContainer>
-              <Paragraph $size={14} margin="0">Hey,</Paragraph>
-              <Paragraph color="primary" $size={16} margin="0">{authUser?.displayName}</Paragraph>
+            <Paragraph $size={14} margin="0">Hey,</Paragraph>
+            <Paragraph color="primary" $size={16} margin="0">{authUser?.displayName}</Paragraph>
             </NameContainer>
             <Button onClick={signOut} variant="outlined">Log uit</Button>
           </>
-        ) : (
+        )}
+
+        {!determined && (
           <>
             <Button to="/profile/register" variant="primary">Registreer</Button>
             <Button to="/profile/login" variant="outlined">Log in</Button>
