@@ -1,17 +1,19 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from 'context/AuthContext';
+import useFirebaseAuth from 'hooks/useFirebaseAuth';
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const { authUser } = useAuth();
+  const { authUser, loading } = useFirebaseAuth();
 
   React.useEffect(() => {
-    if (!authUser?.uid) {
+    if (!loading && authUser === null) {
       router.push('/profile/login');
     }
 
   }, [router, authUser]);
+
+  if (loading) return null;
 
   return <div>{children}</div>;
 };

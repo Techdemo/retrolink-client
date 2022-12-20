@@ -10,19 +10,15 @@ export default function useFirebaseAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('useEffect loopt');
-
     const unsubscribe = firebaseClient.auth().onAuthStateChanged((user) => {
-      console.log('unsubscribe loopt');
-      setLoading(true);
 
-      console.log('on authStated', user)
       if (user) {
-        console.log('there is a user');
+        console.log('user in useFirebaseAuth', user);
         setAuthUser({
           email: user.email,
           uid: user.uid,
           displayName: user.displayName,
+          emailVerified: user.emailVerified,
         });
       } else {
         setAuthUser(null);
@@ -61,6 +57,7 @@ export default function useFirebaseAuth() {
        body: JSON.stringify({ email, password, displayName }),
      });
 
+    //  @TODO: DOes this need to be jsoned?
      const data = await response.json();
 
      if (!response.ok) {
@@ -68,6 +65,16 @@ export default function useFirebaseAuth() {
      };
 
      return data;
+  };
+
+  const sendUserVerificationEmail = () => {
+    const currentUser = firebaseClient.auth().currentUser;
+
+    if (currentUser) {
+      currentUser.sendEmailVerification();
+    } else {
+      throw new Error('No user is logged in');
+    }
   }
 
   const signOut = () =>
@@ -79,6 +86,6 @@ export default function useFirebaseAuth() {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     signOut,
-    determined,
+    sendUserVerificationEmail,
   };
 }

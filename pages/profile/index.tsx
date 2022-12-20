@@ -1,17 +1,24 @@
+// @ts-nocheck
 import Image from 'next/image'
 import { ReactElement } from 'react';
 
-import { Heading, Container, Grid } from 'common';
+import { Heading, Container, Grid, Paragraph } from 'common';
+import { useAuth } from 'context/AuthContext';
 import { ProtectedRoute } from 'modules/protectedroute';
 import WithNavLayout from 'layout/withNav'
 import N64Image from 'images/n64.png';
 
 const ProfilePage = () => {
+  const { authUser, loading } = useAuth();
+
+  if (loading || !authUser) return null;
+
   return (
     <Grid.TwoColumn>
       <Container>
         <Heading as="h1">Profile</Heading>
-        <Heading as="h2"></Heading>
+        <Heading as="h2">{authUser.displayName}</Heading>
+        <Paragraph color="black">email verified: {authUser.emailVerified.toString()} </Paragraph>
       </Container>
       <Container>
       <Image

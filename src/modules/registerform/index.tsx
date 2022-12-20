@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from 'next/router';
 
 import { Input, InputPassword } from 'common/form';
 import { Button } from 'common/button';
@@ -29,10 +30,11 @@ type RegisterUserValues = {
 // - ADD TOAST MESSAGE
 
 export const RegisterForm = () => {
+  const router = useRouter();
   const [registerFailed, setRegisterFailed] = React.useState<boolean>(false);
   const { register, handleSubmit, watch, setError, formState: { errors } } = useForm<RegisterFormValues>();
   const enableButton = watch('email') && watch('password') && watch('displayName') && watch('password2');
-  const { createUserWithEmailAndPassword } = useAuth();
+  const { createUserWithEmailAndPassword, sendUserVerificationEmail, signInWithEmailAndPassword } = useAuth();
 
   const validatePasswords = (values: Partial<RegisterFormValues>) => {
     if (values.password !== values.password2) {
@@ -56,8 +58,11 @@ export const RegisterForm = () => {
 
       createUserWithEmailAndPassword(data.email, data.password, data.displayName)
         .then((response) => {
-          alert('user created')
-          console.log('response', response)
+          signInWithEmailAndPassword(data.email, data.password)
+          .then(() => {
+            sendUserVerificationEmail();
+            router.push('/profile');
+          })
         })
         .catch((error) => {
           alert('error')
