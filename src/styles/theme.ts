@@ -13,13 +13,16 @@ const theme = {
     red: 'red',
   },
   fonts: {
-    regular: 'Nunito Sans, sans-serif',
+    regular: '__Nunito_Sans_634b60',
     medium: 'Nunito Sans, sans-serif',
     bold: 'Nunito Sans, sans-serif',
   },
   radius: {
     small: '6px',
     big: '16px'
+  },
+  general: {
+    navbarHeight: '85px',
   }
 } as const;
 

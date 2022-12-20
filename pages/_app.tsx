@@ -1,4 +1,15 @@
+import type { ReactElement, ReactNode } from 'react'
+import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
+
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+};
+
 import { ThemeProvider } from "styled-components";
 import { AuthUserProvider } from 'context/AuthContext';
 
@@ -12,13 +23,15 @@ const nunitoSans = Nunito_Sans({
 
 import theme from "../src/styles/theme";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page)
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <AuthUserProvider>
         <main className={nunitoSans.className}>
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
         </main>
       </AuthUserProvider>
     </ThemeProvider>

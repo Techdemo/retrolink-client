@@ -35,6 +35,19 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
     isLoading,
   };
 
+  if (to) {
+    return (
+      <StyledButton
+        as="a"
+        href={to}
+        {...styledButtonProps}
+        {...otherProps}
+      >
+        <ButtonContent {...buttonContentProps} />
+      </StyledButton>
+    )
+  }
+
   return (
     <StyledButton
       onClick={onClick}

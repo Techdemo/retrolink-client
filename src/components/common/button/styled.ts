@@ -11,10 +11,10 @@ export const ButtonIcon = styled.div`
 export const StyledButton = styled.button<ButtonProps>`
   width: auto;
   min-width: 0;
-  letter-spacing: 2px;
-  height: 56px;
+  height: 48px;
+  letter-spacing: 0.002em;
   border-radius: 6px;
-  padding: 16px;
+  padding: 12px 16px;
   position: relative;
   display: flex;
   align-items: center;
@@ -23,14 +23,14 @@ export const StyledButton = styled.button<ButtonProps>`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: 16px;
   line-height: 24px;
+  font-weight: 600;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
   outline: none;
-  border: 1px solid ${({ theme }) => theme.colors.primary};
+  border: 2px solid ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.primary};
-  transition: all .2s ease-in;
   text-decoration: none;
 
   ${({ isLoading }) => isLoading && css`
