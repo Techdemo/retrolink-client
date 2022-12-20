@@ -8,7 +8,7 @@ import MailIcon from 'vectors/mail.svg';
 import { validations } from 'services/validations';
 import { useAuth } from 'context/AuthContext';
 
-import { FormContainer } from './styled';
+import { FormContainer, HeadingContainer } from './styled';
 
 type RegisterFormValues = {
   email: string;

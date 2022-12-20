@@ -39,3 +39,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - vul deze codebase in, in je repository en push het.
 - klap de story van het ingelogged blijven
 - move the heading container to the register and login form components
+- Bouw error messages in bij het inloggen wanneer de credentials niet kloppen.

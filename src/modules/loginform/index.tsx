@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -18,12 +19,12 @@ export const LoginForm = () => {
   const { signInWithEmailAndPassword } = useAuth();
   const { register, handleSubmit, watch, setError, formState: { errors } } = useForm<LoginFormValues>();
   const enableButton = watch('email') && watch('password');
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<LoginFormValues> = (data: LoginFormValues) => {
     signInWithEmailAndPassword(data.email, data.password)
     .then((res) => {
-      alert(res);
-      console.log('res', res);
+      router.push('/profile');
     })
     .catch((err) => {
       alert(err);

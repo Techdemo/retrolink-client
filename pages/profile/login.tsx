@@ -1,21 +1,21 @@
 import styled from 'styled-components';
 import Image from 'next/image'
+import { ReactElement } from 'react';
 
 import { Grid } from 'common/grid';
 import { Paragraph } from 'common/paragraph';
 import { Heading } from 'common/heading';
 import { Container } from 'common/container';
+import { LoginForm } from 'modules/loginform';
+import WithNavLayout from 'layout/withNav';
 
 import GameboyImage from 'images/gameboy.jpeg';
-
-import { LoginForm } from 'modules/loginform';
 
 const HeadingContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
 `;
-
 
 // @TODO: MOVE THE HEADING CONTAINER TO THE LOGINFORM COMPONENT
 const LoginPage = () => {
@@ -45,3 +45,11 @@ const LoginPage = () => {
 }
 
 export default LoginPage;
+
+LoginPage.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <WithNavLayout>
+      {page}
+    </WithNavLayout>
+  )
+}

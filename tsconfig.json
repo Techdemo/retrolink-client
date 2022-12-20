@@ -17,6 +17,8 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
+      "layout": ["src/components/layout/index"],
+      "layout/*": ["src/components/layout/*"],
       "context": ["src/context/index"],
       "context/*": ["src/context/*"],
       "config": ["config/index"],

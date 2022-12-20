@@ -4,7 +4,7 @@ export const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
+  height: calc(100vh - ${({ theme }) => theme.general.navbarHeight});
   gap: ${({ flexGap }) => flexGap || 0}px;
 
   ${({ maxWidth }) => maxWidth && css`

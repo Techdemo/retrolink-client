@@ -5,39 +5,51 @@ import { firebaseClient } from 'config/firebaseClient'
 
 const AUTH_ENDPOINT = process.env.NEXT_PUBLIC_AUTH_API_URL;
 
-const formatAuthUser = (user) => ({
-  uid: user.uid,
-  email: user.email,
-  displayName: user.displayName,
-});
-
 export default function useFirebaseAuth() {
   const [authUser, setAuthUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const authStateChanged = async(authState) => {
-    if (!authState) {
-      setLoading(false)
-      return;
-    }
+  useEffect(() => {
+    console.log('useEffect loopt');
 
-    setLoading(true)
+    const unsubscribe = firebaseClient.auth().onAuthStateChanged((user) => {
+      console.log('unsubscribe loopt');
+      setLoading(true);
 
-    const formattedUser = formatAuthUser(authState);
-
-    setAuthUser(formattedUser);
+      console.log('on authStated', user)
+      if (user) {
+        console.log('there is a user');
+        setAuthUser({
+          email: user.email,
+          uid: user.uid,
+          displayName: user.displayName,
+        });
+      } else {
+        setAuthUser(null);
+      }
+    });
 
     setLoading(false);
 
-  };
+    return () => unsubscribe();
+  }, []);
+
 
   const clear = () => {
     setAuthUser(null);
     setLoading(true);
   };
 
-  const signInWithEmailAndPassword = (email, password) => {
-    return firebaseClient.auth().signInWithEmailAndPassword(email, password); 
+  const signInWithEmailAndPassword = async (email, password) => {
+    const response = await firebaseClient.auth().signInWithEmailAndPassword(email, password)
+
+    const data = response;
+
+    if (!response) {
+      throw new Error(data.message || 'Something went wrong!');
+    }
+
+    return data;
   };
 
   const createUserWithEmailAndPassword = async (email, password, displayName) => {
@@ -61,16 +73,12 @@ export default function useFirebaseAuth() {
   const signOut = () =>
     firebaseClient.auth().signOut().then(clear);
 
-  useEffect(() => {
-    const unsubscribe = firebaseClient.auth().onAuthStateChanged(authStateChanged);
-    return () => unsubscribe();
-  }, []);
-
   return {
     authUser,
     loading,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
-    signOut
+    signOut,
+    determined,
   };
 }

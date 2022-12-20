@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import Image from 'next/image'
+import { ReactElement } from 'react';
 
 import { Grid } from 'common/grid';
 import { Paragraph } from 'common/paragraph';
 import { Heading } from 'common/heading';
 import { Container } from 'common/container';
+import WithNavLayout from 'layout/withNav'
 
 import { RegisterForm } from 'modules/registerform';
 
@@ -15,7 +17,7 @@ const HeadingContainer = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
-// @TODO: MOVE THE HEADING CONTAINER TO THE REGISTERFORM COMPONENT
+
 const RegisterPage = () => {
   return (
     <Grid.TwoColumn>
@@ -43,3 +45,11 @@ const RegisterPage = () => {
 }
 
 export default RegisterPage;
+
+RegisterPage.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <WithNavLayout>
+      {page}
+    </WithNavLayout>
+  )
+}
