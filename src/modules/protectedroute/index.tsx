@@ -11,7 +11,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       router.push('/profile/login');
     }
 
-  }, [router, authUser]);
+  }, [router, authUser, loading]);
 
   if (loading) return null;
 

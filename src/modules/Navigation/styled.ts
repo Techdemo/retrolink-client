@@ -5,7 +5,7 @@ export const NavigationContainer = styled.nav`
   height: ${({ theme }) => theme.general.navbarHeight};
   background-color: ${({ theme }) => theme.colors.white};
   display: grid;
-  grid-template-columns: 12.5% auto 12.5%;
+  grid-template-columns: 12.5% auto 22.5%;
   align-items: center;
   padding: 0 24px;
   box-shadow: 0px 0px 1px rgba(59, 40, 204, 0.05), 0px 2px 4px rgba(59, 40, 204, 0.1);
