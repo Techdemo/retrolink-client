@@ -28,7 +28,7 @@ const LoginPage = () => {
         </HeadingContainer>
         <LoginForm />
       </Container>
-      <Container>
+      <Container hideOnMobile={true}>
         <Image
           alt="gameboy image"
           src={GameboyImage}

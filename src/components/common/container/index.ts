@@ -13,6 +13,12 @@ export const Container = styled.div<ContainerProps>`
     margin: 0 auto;
   `}
 
+  ${({ hideOnMobile }) => hideOnMobile && css`
+    @media (max-width: 768px) {
+      display: none;
+    }
+  `}
+
   img {
     height: 100%;
   }
@@ -21,4 +27,5 @@ export const Container = styled.div<ContainerProps>`
 type ContainerProps = {
   maxWidth?: boolean;
   flexGap?: number;
+  hideOnMobile?: boolean;
 };

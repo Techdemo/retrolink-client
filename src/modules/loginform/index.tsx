@@ -16,7 +16,7 @@ type LoginFormValues = {
 };
 
 export const LoginForm = () => {
-  const { signInWithEmailAndPassword } = useAuth();
+  const { signInWithEmailAndPassword, loading } = useAuth();
   const { register, handleSubmit, watch, setError, formState: { errors } } = useForm<LoginFormValues>();
   const enableButton = watch('email') && watch('password');
   const router = useRouter();

@@ -20,7 +20,7 @@ const ProfilePage = () => {
         <Heading as="h2">{authUser.displayName}</Heading>
         <Paragraph color="black">email verified: {authUser.emailVerified.toString()} </Paragraph>
       </Container>
-      <Container>
+      <Container hideOnMobile={true}>
       <Image
           alt="Nintendo 64 image"
           src={N64Image}

@@ -28,7 +28,7 @@ const RegisterPage = () => {
         </HeadingContainer>
         <RegisterForm />
       </Container>
-      <Container>
+      <Container hideOnMobile={true}>
         <Image
           alt="Nintendo 64 image"
           src={N64Image}
