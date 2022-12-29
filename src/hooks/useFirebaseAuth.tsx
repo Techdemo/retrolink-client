@@ -6,6 +6,7 @@ import { firebaseClient } from 'config/firebaseClient'
 const AUTH_ENDPOINT = process.env.NEXT_PUBLIC_AUTH_API_URL;
 
 export default function useFirebaseAuth() {
+  // @TODO: Add a clear isAuthenticated state that is reusable and can be used to check if the user is authenticated
   const [authUser, setAuthUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +14,6 @@ export default function useFirebaseAuth() {
     const unsubscribe = firebaseClient.auth().onAuthStateChanged((user) => {
 
       if (user) {
-        console.log('user in useFirebaseAuth', user);
         setAuthUser({
           email: user.email,
           uid: user.uid,
@@ -33,31 +33,53 @@ export default function useFirebaseAuth() {
 
   const clear = () => {
     setAuthUser(null);
-    setLoading(true);
+    setLoading(false);
+  };
+
+  // Calls to API endpoints will be moved to a seperate file
+  const postIdTokenToSessionLogin = async (idToken: string) => {
+    const response = await fetch(`${AUTH_ENDPOINT}/sessionlogin`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ idToken }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Something went wrong!');
+    };
+
+    return data;
   };
 
   const signInWithEmailAndPassword = async (email, password) => {
-    const response = await firebaseClient.auth().signInWithEmailAndPassword(email, password)
-
-    const data = response;
-
-    if (!response) {
-      throw new Error(data.message || 'Something went wrong!');
-    }
-
-    return data;
+    firebaseClient.auth().signInWithEmailAndPassword(email, password)
+    .then((res) => {
+      res.user?.getIdToken().then((idToken) => {
+        return postIdTokenToSessionLogin(idToken);
+      })
+    })
+    .catch((error) => {
+      throw new Error(error.message || 'Something went wrong!');
+    });
   };
 
   const createUserWithEmailAndPassword = async (email, password, displayName) => {
      const response = await fetch(`${AUTH_ENDPOINT}/register`, {
        method: 'POST',
+       credentials: 'include',
        headers: {
          'Content-Type': 'application/json',
+         'Accept': 'application/json'
        },
        body: JSON.stringify({ email, password, displayName }),
      });
 
-    //  @TODO: DOes this need to be jsoned?
      const data = await response.json();
 
      if (!response.ok) {
@@ -75,11 +97,27 @@ export default function useFirebaseAuth() {
     } else {
       throw new Error('No user is logged in');
     }
-  }
+  };
 
-  const signOut = () =>
-    firebaseClient.auth().signOut().then(clear);
+  const signOut = async () => {
+    clear();
+    const response = await fetch(`${AUTH_ENDPOINT}/sessionlogout`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
+    const data = await response.json();
+
+    if (response.error) {
+      throw new Error('Something went wrong!');
+    };
+
+    return data;
+  };
+  
   return {
     authUser,
     loading,
