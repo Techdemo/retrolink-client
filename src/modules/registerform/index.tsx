@@ -66,7 +66,6 @@ export const RegisterForm = () => {
         })
         .catch((error) => {
           alert('error')
-          console.log('error', error)
         })
     } else {
       setRegisterFailed(true);
