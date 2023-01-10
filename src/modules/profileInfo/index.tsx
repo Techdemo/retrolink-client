@@ -6,6 +6,8 @@ import { Heading, Paragraph, Button, Container } from 'common';
 import { Modal } from 'modules';
 import { useAuth } from 'context/AuthContext';
 
+import { ProfileHeader, ProfileEmailVerificationContainer, StyledNotificationIcon } from './styled';
+
 export const ProfileInformation = () => {
   const Router = useRouter();
   const [showModal, setShowModal] = React.useState(false);
@@ -17,7 +19,7 @@ export const ProfileInformation = () => {
     clear();
 
     deleteUser()
-    .then((res) => {
+    .then(() => {
       Router.push('/profile/login');
     }).catch((err) => {
       console.log('err user deletion', err);
@@ -43,9 +45,16 @@ export const ProfileInformation = () => {
   return (
     <>
       <Container maxWidth>
-        <Heading as="h1">Profile</Heading>
-        <Heading as="h2">{authUser.displayName}</Heading>
-        <Paragraph color="black">email verified: {authUser.emailVerified.toString()}</Paragraph>
+        <ProfileHeader>
+          <Heading as="h2" margin="0">Hallo, {authUser.displayName}</Heading>
+          <Paragraph color="black" margin="12 0">Dit zijn jouw accountgegevens. Je kan ze later altijd wijzigen.</Paragraph>
+        </ProfileHeader>
+        {!authUser.emailVerified && (
+          <ProfileEmailVerificationContainer>
+            <StyledNotificationIcon />
+            <Paragraph color="black" margin="12 0">Je hebt je emailadres nog niet geverifieerd. Klik op de link in de email die je hebt ontvangen.</Paragraph>
+          </ProfileEmailVerificationContainer>
+        )}
         <Button 
           variant="outlined" 
           onClick={() => setShowModal(true)}
