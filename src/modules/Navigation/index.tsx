@@ -1,8 +1,9 @@
 // @ts-nocheck
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import { NavLink, Button, Paragraph } from 'common';
-import useFirebaseAuth from 'hooks/useFirebaseAuth';
+import { useAuth } from 'context/AuthContext';
 
 import { 
   NavigationContainer, 
@@ -13,10 +14,15 @@ import {
 } from './styled';
 
 export const Navigation = () => {
-  const { authUser, signOut, loading } = useFirebaseAuth();
-  const determined = Boolean(authUser && authUser.uid && !loading);
+  const Router = useRouter();
+  const { authUser, signOut, loading } = useAuth();
 
-  if (loading) return null;
+  const handleSignOut = () => {
+    signOut()
+    .then(() => {
+      Router.push('/profile/login');
+    })
+  }
 
   return (
     <NavigationContainer>
@@ -31,17 +37,17 @@ export const Navigation = () => {
       </MenuContainer>
 
       <ButtonContainer>
-        {determined && (
+        {authUser && !loading && (
           <>
             <NameContainer>
             <Paragraph $size={14} margin="0">Hey,</Paragraph>
             <Paragraph color="primary" $size={16} margin="0">{authUser?.displayName}</Paragraph>
             </NameContainer>
-            <Button onClick={signOut} variant="outlined">Log uit</Button>
+            <Button onClick={handleSignOut} variant="outlined">Log uit</Button>
           </>
         )}
 
-        {!determined && (
+        {!authUser && !loading && (
           <>
             <Button to="/profile/register" variant="primary">Registreer</Button>
             <Button to="/profile/login" variant="outlined">Log in</Button>

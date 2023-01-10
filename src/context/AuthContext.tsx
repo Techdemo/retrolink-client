@@ -11,7 +11,10 @@ const authUserContext = createContext({
   signInWithEmailAndPassword: async (email: string, password: string) => {},
   createUserWithEmailAndPassword: async (email: string, password: string, displayName: string) => {},
   signOut: async () => {},
-  sendUserVerificationEmail: async () => {}
+  sendUserVerificationEmail: async () => {},
+  deleteUser: async () => {},
+  verifyUser: async () => {},
+  clear: () => {},
 });
 
 export function AuthUserProvider({ children }) {

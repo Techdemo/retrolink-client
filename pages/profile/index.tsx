@@ -2,7 +2,8 @@
 import Image from 'next/image'
 import { ReactElement } from 'react';
 
-import { Heading, Container, Grid, Paragraph } from 'common';
+import { Container, Grid } from 'common';
+import { ProfileInformation } from 'modules';
 import { useAuth } from 'context/AuthContext';
 import { ProtectedRoute } from 'modules/protectedroute';
 import WithNavLayout from 'layout/withNav'
@@ -15,11 +16,7 @@ const ProfilePage = () => {
 
   return (
     <Grid.TwoColumn>
-      <Container>
-        <Heading as="h1">Profile</Heading>
-        <Heading as="h2">{authUser.displayName}</Heading>
-        <Paragraph color="black">email verified: {authUser.emailVerified.toString()} </Paragraph>
-      </Container>
+      <ProfileInformation />
       <Container hideOnMobile={true}>
       <Image
           alt="Nintendo 64 image"

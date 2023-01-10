@@ -5,9 +5,3 @@ export const FormContainer = styled.form`
   flex-direction: column;
   gap: 18px;
 `;
-
-export const HeadingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
