@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from 'react';
+import { useEffect } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Input, InputPassword } from 'common/form';
@@ -16,14 +16,21 @@ type LoginFormValues = {
 };
 
 export const LoginForm = () => {
-  const { signInWithEmailAndPassword, loading } = useAuth();
+  const { signInWithEmailAndPassword, verifyUser, authUser } = useAuth();
   const { register, handleSubmit, watch, setError, formState: { errors } } = useForm<LoginFormValues>();
   const enableButton = watch('email') && watch('password');
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<LoginFormValues> = (data: LoginFormValues) => {
+  useEffect(() => {
+    if (authUser) {
+      router.push('/profile');
+    }
+  }, [authUser]);
+
+  const onSubmit: SubmitHandler<LoginFormValues> = async (data: LoginFormValues) => {
     signInWithEmailAndPassword(data.email, data.password)
-    .then((res) => {
+    .then(() => {
+      verifyUser();
       router.push('/profile');
     })
     .catch((err) => {

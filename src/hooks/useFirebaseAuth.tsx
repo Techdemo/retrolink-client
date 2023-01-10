@@ -7,36 +7,69 @@ const AUTH_ENDPOINT = process.env.NEXT_PUBLIC_AUTH_API_URL;
 
 export default function useFirebaseAuth() {
   // @TODO: Add a clear isAuthenticated state that is reusable and can be used to check if the user is authenticated
+    // @TODO: Calls to API endpoints will be moved to a seperate file
   const [authUser, setAuthUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const unsubscribe = firebaseClient.auth().onAuthStateChanged((user) => {
-
-      if (user) {
-        setAuthUser({
-          email: user.email,
-          uid: user.uid,
-          displayName: user.displayName,
-          emailVerified: user.emailVerified,
-        });
-      } else {
-        setAuthUser(null);
-      }
+  const deleteUser = async () => {
+    const response = await fetch(`${AUTH_ENDPOINT}/delete`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
     });
 
-    setLoading(false);
+    const data = await response.json();
 
-    return () => unsubscribe();
+    if (!response.ok) {
+      throw new Error(data.message || 'Something went wrong!');
+    };
+
+    return data;
+  };
+
+  const verifySessionCookie = async () => {
+    const response = await fetch(`${AUTH_ENDPOINT}/verifyUser`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Something went wrong!');
+    };
+
+    return data;
+  };
+
+  const verifyUser = async () => {
+    try {
+      const data = await verifySessionCookie();
+      
+      setAuthUser(data);
+      setLoading(false);
+    } catch (error) {
+      setAuthUser(null);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    return () => verifyUser();
   }, []);
-
 
   const clear = () => {
     setAuthUser(null);
     setLoading(false);
   };
 
-  // Calls to API endpoints will be moved to a seperate file
   const postIdTokenToSessionLogin = async (idToken: string) => {
     const response = await fetch(`${AUTH_ENDPOINT}/sessionlogin`, {
       method: 'POST',
@@ -58,15 +91,17 @@ export default function useFirebaseAuth() {
   };
 
   const signInWithEmailAndPassword = async (email, password) => {
-    firebaseClient.auth().signInWithEmailAndPassword(email, password)
-    .then((res) => {
-      res.user?.getIdToken().then((idToken) => {
-        return postIdTokenToSessionLogin(idToken);
-      })
-    })
-    .catch((error) => {
-      throw new Error(error.message || 'Something went wrong!');
-    });
+    return firebaseClient.auth()
+      .signInWithEmailAndPassword(email, password)
+        .then((res) => {
+          return res.user?.getIdToken()
+            .then((idToken) => {
+              return postIdTokenToSessionLogin(idToken);
+            })
+        })
+        .catch((error) => {
+          throw new Error(error.message || 'Something went wrong!');
+        });
   };
 
   const createUserWithEmailAndPassword = async (email, password, displayName) => {
@@ -125,5 +160,8 @@ export default function useFirebaseAuth() {
     createUserWithEmailAndPassword,
     signOut,
     sendUserVerificationEmail,
+    deleteUser,
+    verifyUser,
+    clear,
   };
 }
