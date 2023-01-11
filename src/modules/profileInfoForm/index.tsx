@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { Input } from 'common';
 import { validations } from 'services/validations';
@@ -14,7 +14,7 @@ type ProfileInfoFormValues = {
 
 export const ProfileDataForm = () => {
   const { authUser } = useAuth();
-  const { register, handleSubmit, formState: { errors } } = useForm<ProfileInfoFormValues>();
+  const { register, formState: { errors } } = useForm<ProfileInfoFormValues>();
 
   return (
     <ProfileDataFormContainer>
