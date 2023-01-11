@@ -25,7 +25,7 @@ export type IconType = {
 };
 
 export type ButtonVariantsType = {
-  variant?: 'primary' | 'secondary' | 'CTA' | 'outlined' | 'warning' | 'outlined-white';
+  variant?: 'primary' | 'outlined' | 'warning' | 'text-only';
 };
 
 export type ButtonSizeType = {

@@ -9,6 +9,7 @@ export const ProfileEmailVerificationContainer = styled.div`
   flex-direction: row;
   justify-content: space-around;
   gap: 12px;
+  align-items: center;
 `;
 
 export const StyledNotificationIcon = styled(NotificationIcon)`

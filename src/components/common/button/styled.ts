@@ -37,14 +37,15 @@ export const StyledButton = styled.button<ButtonProps>`
     cursor: not-allowed;  
   `}
 
-  ${({ variant }) => variant === 'secondary' && css`
-    background-color: ${({ theme }) => theme.colors.secondary};
-    color: ${({ theme }) => theme.colors.white};
-  `}
-
   ${({ variant }) => variant === 'outlined' && css`
     background-color: ${({ theme }) => theme.colors.white};
     color: ${({ theme }) => theme.colors.primary};
+  `}
+
+  ${({ variant }) => variant === 'text-only' && css`
+    background-color: transparent;
+    color: ${({ theme }) => theme.colors.primary};
+    border: none;
   `}
 
   svg {
