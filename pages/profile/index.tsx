@@ -1,6 +1,8 @@
 // @ts-nocheck
 import Image from 'next/image'
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 
 import { Container, Grid } from 'common';
 import { ProfileInformation } from 'modules';
@@ -11,8 +13,17 @@ import N64Image from 'images/n64.png';
 
 const ProfilePage = () => {
   const { authUser, loading } = useAuth();
+  const router = useRouter();
 
   if (loading || !authUser) return null;
+
+  useEffect(() => {
+    if (router.query.newUser) {
+      toast.success(
+        'Account aanmaken is gelukt! Klik op de link in je email om je account te verifieren.'
+      )
+    }
+  }, []);
 
   return (
     <Grid.TwoColumn>
