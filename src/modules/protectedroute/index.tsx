@@ -7,7 +7,6 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { authUser, loading } = useAuth();
 
   React.useEffect(() => {
-    console.log('authUser', authUser);
     if (!authUser && !loading) {
       router.push('/profile/login');
     };

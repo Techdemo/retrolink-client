@@ -61,7 +61,12 @@ export const RegisterForm = () => {
           signInWithEmailAndPassword(data.email, data.password)
           .then(() => {
             sendUserVerificationEmail();
-            router.push('/profile');
+            router.push({ 
+              pathname: '/profile', 
+              query: {
+                newUser: true
+              }
+            });
           })
         })
         .catch((error) => {
