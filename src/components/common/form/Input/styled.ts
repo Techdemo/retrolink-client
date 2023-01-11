@@ -1,3 +1,4 @@
+// @ts-ignore
 import * as i from 'types';
 import styled, { css } from 'styled-components';
 
@@ -41,7 +42,6 @@ export const InputFieldCss = css<InputProps>`
   &[readonly],
   &[disabled] {
     opacity: 0.4;
-    border-left: 2px solid ${({ theme }) => theme.colors.white};
   }
 
   ${({ hasIcon }) => hasIcon && css`
@@ -116,7 +116,7 @@ export const InputWrapper = styled.div<InputWrapperProps>`
 
   ${({ iconPosition }) => iconPosition === 'right' && css`
     ${StyledInput} {
-      padding: 32px 60px 15px 0px;
+      padding: 16px;
     }
 
     ${InputIcon} {
