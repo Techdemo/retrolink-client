@@ -23,6 +23,28 @@ const theme = {
   },
   general: {
     navbarHeight: '85px',
+  },
+  toast: {
+    gutter: 24,
+    position: 'bottom-right',
+    error: {
+      style: {
+        fontFamily: 'Nunito Sans, sans-serif',
+        background: '#fff',
+        borderBottom: '1px solid red',
+        fontSize: '18px',
+        padding: '24px',
+      }
+    }, 
+    success: {
+      style: {
+        fontFamily: 'Nunito Sans, sans-serif',
+        fontSize: '18px',
+        background: '#fff',
+        borderBottom: '#472F94',
+        padding: '24px',
+      }
+    }
   }
 } as const;
 

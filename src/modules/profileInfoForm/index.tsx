@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useForm } from "react-hook-form";
+import { toast } from 'react-hot-toast';
 
-import { Input } from 'common';
+import { Input, Button } from 'common';
 import { validations } from 'services/validations';
 import { useAuth } from 'context/AuthContext';
 
@@ -15,6 +16,11 @@ type ProfileInfoFormValues = {
 export const ProfileDataForm = () => {
   const { authUser } = useAuth();
   const { register, formState: { errors } } = useForm<ProfileInfoFormValues>();
+
+  const notify = (e) => {
+    e.preventDefault();
+    toast.success('Here is your toast.')
+  }
 
   return (
     <ProfileDataFormContainer>
@@ -48,6 +54,9 @@ export const ProfileDataForm = () => {
         iconPosition='right'
         icon={<PencilIcon />}
       />
+      <Button onClick={notify}>
+        Test the toast container
+      </Button>
     </ProfileDataFormContainer>
   )
 }

@@ -5,8 +5,7 @@ import { useState } from 'react';
 import { ThemeProvider } from "styled-components";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from 'react-hot-toast';
 
 import { AuthUserProvider } from 'context/AuthContext';
 
@@ -27,7 +26,6 @@ const nunitoSans = Nunito_Sans({
 });
 
 import theme from "../src/styles/theme";
-import { toastConfig } from '../src/styles/toast';
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -43,7 +41,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           </main>
           <div id="modal-root"></div>
         </AuthUserProvider>
-        <ToastContainer { ...toastConfig }/>
+        <Toaster toastOptions={{...theme.toast}} />
         <ReactQueryDevtools initialIsOpen={true} />
       </QueryClientProvider>
     </ThemeProvider>
