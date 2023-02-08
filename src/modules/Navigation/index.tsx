@@ -32,7 +32,7 @@ export const Navigation = () => {
 
       <MenuContainer>
         <NavLink href="/">Home</NavLink>
-        <NavLink href="/advertenties">Advertenties</NavLink>
+        <NavLink href="/adverts">Advertenties</NavLink>
         <NavLink href="/contact">Contact</NavLink>
       </MenuContainer>
 

@@ -54,4 +54,4 @@ ProfilePage.getLayout = function getLayout(page: ReactElement) {
       </ProtectedRoute>
     </WithNavLayout>
   )
-}
+};

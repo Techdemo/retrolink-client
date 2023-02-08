@@ -2,9 +2,6 @@
 import { createContext, useContext } from 'react'
 import useFirebaseAuth from 'hooks/useFirebaseAuth';
 
-// @TODO :
-// - Add types
-
 const authUserContext = createContext({
   authUser: null,
   loading: true,
